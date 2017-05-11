@@ -28,7 +28,10 @@ defmodule KVstore.Storage do
   return [{key, value}] if found.
   """
   def get(key) do
-    :ets.lookup(@table_name, key)
+    case :ets.lookup(@table_name, key) do
+      [{^key, value}] -> value
+      [] -> :error
+    end
   end
 
   ## Server Callbacks
